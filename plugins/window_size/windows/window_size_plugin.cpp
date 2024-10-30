@@ -24,6 +24,7 @@
 #include <memory>
 #include <optional>
 #include <sstream>
+#include <iostream>
 
 namespace {
 
@@ -71,6 +72,7 @@ EncodableValue GetPlatformChannelRepresentationForRect(const RECT &rect) {
 // serializable form expected by the platform channel.
 EncodableValue GetPlatformChannelRepresentationForMonitor(HMONITOR monitor) {
   if (!monitor) {
+    std::cout << "plugin: ========================== Monitor is null" << std::endl;
     return EncodableValue();
   }
 
@@ -186,6 +188,7 @@ void WindowSizePlugin::HandleMethodCall(
     std::unique_ptr<flutter::MethodResult<>> result) {
   if (method_call.method_name().compare(kGetScreenListMethod) == 0) {
     EncodableValue screens(std::in_place_type<EncodableList>);
+    std::cout << "plugin: ========================== get screen list" << std::endl;
     ::EnumDisplayMonitors(nullptr, nullptr, MonitorRepresentationEnumProc,
                           reinterpret_cast<LPARAM>(&screens));
     result->Success(screens);
